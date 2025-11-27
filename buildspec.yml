@@ -30,7 +30,8 @@ phases:
       - echo 'export PATH=$PWD/:$PATH' >> $HOME/.bashrc
       - echo `kubectl version --short --client`
       - python -m pip install --upgrade --force pip
-      - apt-get update && apt-get -y install jq
+      - apt-get update --allow-releaseinfo-change -o Acquire::AllowInsecureRepositories=true || true
+      - apt-get install -y --allow-unauthenticated jq || (wget -O /usr/local/bin/jq https://github.com/stedolan/jq/releases/download/jq-1.6/jq-linux64 && chmod +x /usr/local/bin/jq)
       - python -m pip install --upgrade awscli pytest
   pre_build:
     commands:
